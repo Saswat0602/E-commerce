@@ -10,6 +10,7 @@ import NotFound from "./components/NotFound";
 import Home from "./components/Home";
 import UserDetails from "./widgets/UserDetails";
 import ProductDetails from "./widgets/ProductDetails";
+import AddProduct from "./components/AddProduct";
 function App() {
   return (
     <Router>
@@ -21,6 +22,8 @@ function App() {
           <Route exact path="/register" element={<Register />} />
           <Route path="/product/:productId" element={<ProductDetails />} />
           <Route path="*" element={<NotFound />} />
+
+          <Route exact path="/addproduct" element={<AddProduct />} />
 
           <Route exact path="/user" element={<UserDetails />} />
         </Routes>

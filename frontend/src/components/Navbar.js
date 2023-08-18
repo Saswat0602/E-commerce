@@ -21,7 +21,7 @@ const Navbar = () => {
       <div className="flex items-center bg-white rounded-lg shadow-md px-2 py-1">
         <input
           type="text"
-          placeholder="Search for products, brands, and more"
+          placeholder="Search for products"
           className="w-full bg-transparent focus:outline-none"
         />
         <button className="text-blue-500">

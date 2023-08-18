@@ -28,11 +28,11 @@ const ProductDetails = () => {
 
   return (
     <div>
-      <div className="p-2">
+      <div className="p-2 min-h-screen">
         <div className="flex flex-col md:flex-row m-5">
           <div className="w-full md:w-1/2 pr-6 mb-4 md:mb-0">
             <img
-              src={product?.image}
+              src={`http://localhost:8000/storage/${product?.image}`}
               alt={product?.name}
               className="w-full border rounded-lg"
             />
@@ -58,32 +58,34 @@ const ProductDetails = () => {
             <h1 className="mb-5 font-thin text-5xl text-black items-center">
               {product?.name?.toUpperCase()}
             </h1>
+
             <span className="text-blue-400">
               Be the first to Review this product
             </span>
             <h1 className=" font-bold text-3xl">
-              <span className="font-">₹ :</span>
+              <span className="font-">₹ </span>
               {product?.price}
-             
             </h1>
+
+            
             <span className=" text-green-500"> 53% off</span>
             <div>
-            Available offers
-            <p>Bank Offer5% Cashback on Flipkart Axis Bank CardT&C</p>
-            <p>
-              Extra ₹500 Off on Bikes & Scooters on purchase of ₹30,000 or
-              moreT&C
-            </p>
-            <p>
-              Partner OfferSign-up for Flipkart Pay Later & get free Times
-              Prime Benefits worth ₹10,000*Know More
-            </p>
-            <p>
-              Partner OfferPurchase now & get 1 surprise cashback coupon in
-              FutureKnow More
-            </p>
-            <p>View 1 more offer</p>
-          </div>
+              Available offers
+              <p>      Bank Offer5% Cashback on Flipkart Axis Bank CardT&C</p>
+              <p>
+                Extra ₹500 Off on Bikes & Scooters on purchase of ₹30,000 or
+                moreT&C
+              </p>
+              <p>
+                Partner OfferSign-up for Flipkart Pay Later & get free Times
+                Prime Benefits worth ₹10,000*Know More
+              </p>
+              <p>
+                Partner OfferPurchase now & get 1 surprise cashback coupon in
+                FutureKnow More
+              </p>
+              <p>View 1 more offer</p>
+            </div>
             <h1>
               <span className="font-bold text-blue-300">
                 Product Category :
@@ -100,12 +102,7 @@ const ProductDetails = () => {
             </div>
           </div>
         </div>
-        <button
-          onClick={() => navigate("/")}
-          className="bg-blue-300 p-2 md:p-4 border rounded-md ml-5 mb-3 block"
-        >
-          Back to home
-        </button>
+       
       </div>
     </div>
   );
