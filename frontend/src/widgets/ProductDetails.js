@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BsCartPlus, BsLightningFill } from "react-icons/bs";
 import { useParams, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ProductDetails = () => {
   const { productId } = useParams();
@@ -19,11 +20,11 @@ const ProductDetails = () => {
   }, [productId]);
 
   const handleCart = () => {
-    // Handle adding to cart logic
+    toast.success('product added to cart ')
   };
 
   const handleBuy = () => {
-    // Handle buy now logic
+    navigate('/userdetail')
   };
 
   return (

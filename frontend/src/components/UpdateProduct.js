@@ -1,47 +1,64 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-const AddProduct = () => {
 
-    const { id } = useParams();
+const UpdateProduct = () => {
+  const { id } = useParams();
+  const [image, setImage] = useState(null);
+  const [input, setInput] = useState({
+    name: '',
+    description: '',
+    category: '',
+    price: '',
+    stock_quantity: '',
+  });
 
-    const [image, setImage] = useState(null);
-    const [input, setInput] = useState({
-      name: '',
-      description: '',
-      category: '',
-      price: '',
-      stock_quantity: '',
-    });
-  
-    const token = localStorage.getItem('token');
-    const navigate = useNavigate();
-  
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    fetchProductDetails(); 
+  }, []);
 
-
-
-
-    const handleChange = (e) => {
-      const { name, value } = e.target;
-      setInput((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    };
-  
-    const handleCancel = () => {
+  const fetchProductDetails = async () => {
+    try {
+      const response = await fetch(`http://localhost:8000/api/products/${id}`);
+      const data = await response.json();
+      const productDetails = data.product; 
+      setInput({
+        name: productDetails.name,
+        description: productDetails.description,
+        category: productDetails.category,
+        price: productDetails.price.toString(),
+        stock_quantity: productDetails.stock_quantity.toString(),
+      });
+    } catch (error) {
+      console.error('Error fetching product details:', error);
+      toast.error('Error fetching product details');
       navigate('/');
-    };
-  
-    const handleImageChange = (e) => {
-      if (e.target.files && e.target.files.length > 0) {
-        setImage(e.target.files[0]);
-      }
-    };
-  
-    const addProduct = async (e) => {
-      e.preventDefault();
+    }
+  };
+
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setInput((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleCancel = () => {
+    navigate('/');
+  };
+
+  const handleImageChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setImage(e.target.files[0]);
+    }
+  };
+
+  const updateProduct = async (e) => {
+    e.preventDefault();
       const { name, description, category, price, stock_quantity } = input;
   
       const formData = new FormData();
@@ -55,11 +72,9 @@ const AddProduct = () => {
       }
   
       try {
-        const response = await fetch(`http://localhost:8000/api/update${id}`, {
+        const response = await fetch(`http://localhost:8000/api/products/${id}`, {
           method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+         
           body: formData,
         });
   
@@ -72,8 +87,8 @@ const AddProduct = () => {
           navigate('/');
         }
       } catch (error) {
-        console.error('Error occurred while adding the product', error);
-        toast.error('An error occurred while adding the product');
+        console.error('Error occurred while updating the product', error);
+        toast.error('An error occurred while updating the product');
           navigate('/');
 
       }
@@ -90,6 +105,7 @@ const AddProduct = () => {
                 type="text"
                 className="p-1 border rounded-lg"
                 name="name"
+                value={input.name}
                 placeholder="Enter your name of the property"
                 onChange={handleChange}
               />
@@ -100,19 +116,34 @@ const AddProduct = () => {
               type="text"
               className="p-1 border rounded-lg"
               name="category"
+              value={input.category}
+
               placeholder="Enter your name of the property"
               onChange={handleChange}
             />
-              <label htmlFor="image" className="ml-2">
-                Picture
-              </label>
-              <input
-                type="file"
-                className="p-1 border rounded-lg"
-                name="picture"
-                accept="image/*" 
-                onChange={handleImageChange}
-                />
+            <label htmlFor="image" className="ml-2 block text-sm font-medium text-gray-700">
+            Picture
+          </label>
+          <div className="mt-1 relative rounded-md shadow-sm">
+            <input
+              type="file"
+              name="picture"
+              id="image"
+              className="hidden"
+              accept="image/*"
+              onChange={handleImageChange}
+            />
+            <label
+              htmlFor="image"
+              className="cursor-pointer bg-white p-2 border border-gray-300 rounded-md hover:border-blue-500 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              Choose a file
+            </label>
+            <span className="ml-3" id="file-name">
+              {image && image.name}
+            </span>
+          </div>
+          
     
               <label htmlFor="stock_quantity" className="ml-2">
                 Quantity  Available
@@ -121,6 +152,8 @@ const AddProduct = () => {
                 type="text"
                 className="p-1 border rounded-lg"
                 name="stock_quantity"
+                value={input.stock_quantity}
+
                 placeholder="Enter the location of this property"
                 onChange={handleChange}
               />
@@ -132,6 +165,8 @@ const AddProduct = () => {
                 type="text"
                 className="p-1 border rounded-lg"
                 name="price"
+                value={input.price}
+
                 placeholder="Add price"
                 onChange={handleChange}
               />
@@ -142,16 +177,18 @@ const AddProduct = () => {
               <textarea
                 className="p-1 border rounded-lg"
                 name="description"
+                value={input.description}
+
                 placeholder="Describe something about this property"
                 cols={40}
                 rows={3}
                 onChange={handleChange}
               />
               <button
-              onClick={addProduct}
+              onClick={updateProduct}
               className="bg-[#074FB2] text-white py-2 rounded-lg mt-3 hover:bg-blue-600"
             >
-              Add property
+              Update 
             </button>
             <div className="flex justify-around gap-3 mt-4">
               <div className="flex justify-center items-center">
@@ -176,4 +213,4 @@ const AddProduct = () => {
       );
     };
 
-export default AddProduct
+export default UpdateProduct

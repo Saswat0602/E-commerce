@@ -95,16 +95,29 @@ const AddProduct = () => {
               placeholder="Enter your name of the property"
               onChange={handleChange}
             />
-              <label htmlFor="image" className="ml-2">
-                Picture
-              </label>
-              <input
-                type="file"
-                className="p-1 border rounded-lg"
-                name="picture"
-                accept="image/*" 
-                onChange={handleImageChange}
-                />
+            <label htmlFor="image" className="ml-2 block text-sm font-medium text-gray-700">
+            Picture
+          </label>
+          <div className="mt-1 relative rounded-md shadow-sm">
+            <input
+              type="file"
+              name="picture"
+              id="image"
+              className="hidden"
+              accept="image/*"
+              onChange={handleImageChange}
+            />
+            <label
+              htmlFor="image"
+              className="cursor-pointer bg-white p-2 border border-gray-300 rounded-md hover:border-blue-500 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              Choose a file
+            </label>
+            <span className="ml-3" id="file-name">
+              {image && image.name}
+            </span>
+          </div>
+          
     
               <label htmlFor="stock_quantity" className="ml-2">
                 Quantity  Available
@@ -143,7 +156,7 @@ const AddProduct = () => {
               onClick={addProduct}
               className="bg-[#074FB2] text-white py-2 rounded-lg mt-3 hover:bg-blue-600"
             >
-              Add property
+              Add Product 
             </button>
             <div className="flex justify-around gap-3 mt-4">
               <div className="flex justify-center items-center">

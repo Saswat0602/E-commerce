@@ -11,6 +11,7 @@ import Home from "./components/Home";
 import UserDetails from "./widgets/UserDetails";
 import ProductDetails from "./widgets/ProductDetails";
 import AddProduct from "./components/AddProduct";
+import Dashboard from "./components/Dashboard";
 function App() {
   return (
     <Router>
@@ -25,7 +26,8 @@ function App() {
 
           <Route exact path="/addproduct" element={<AddProduct />} />
 
-          <Route exact path="/user" element={<UserDetails />} />
+          <Route exact path="/userdetail" element={<UserDetails />} />
+          <Route exact path="/dashboard" element={<Dashboard />} />
         </Routes>
         <Footer />
 
