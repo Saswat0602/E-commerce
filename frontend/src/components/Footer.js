@@ -6,12 +6,21 @@ import {
   FaInstagram,
   FaTwitterSquare,
 } from "react-icons/fa";
+import { useLocation } from "react-router-dom";
 
 const Footer = () => {
+  const location = useLocation();
+  const admin = location.pathname === "/admindashboard";
+  const login = location.pathname === "/login";
+  const register = location.pathname === "/register";
+  if (admin || login || register) {
+    return null;
+  }
+
   return (
     <div className="max-w-[1240px] mx-auto py-16 px-4 grid lg:grid-cols-3 gap-8 text-gray-800">
       <div>
-        <h1 className="w-full text-3xl font-bold text-[#00df9a]">Shop Site.</h1>
+        <h1 className="w-full text-3xl font-bold text-[#00df9a]">Shop Shop.</h1>
         <p className="py-4">
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id odit
           ullam iste repellat consequatur libero reiciendis, blanditiis

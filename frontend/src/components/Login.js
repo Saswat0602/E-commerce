@@ -59,7 +59,7 @@ const Login = () => {
     });
     let data = await response.json();
     console.log(data);
-    const { message, token, userId } = data;
+    const { message, token,user_id } = data;
     console.log("token :", token);
     console.log("message :", message);
 
@@ -100,6 +100,7 @@ const Login = () => {
       });
 
       localStorage.setItem("token", token);
+      localStorage.setItem("id", user_id);
       localStorage.setItem("message", message);
       console.log("logged in successfully");
       navigate("/");

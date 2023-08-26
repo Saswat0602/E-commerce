@@ -89,14 +89,14 @@ const UpdateProduct = () => {
       } catch (error) {
         console.error('Error occurred while updating the product', error);
         toast.error('An error occurred while updating the product');
-          navigate('/');
+          navigate('/dashboard');
 
       }
     };
 
     return (
         <div className="bg-white p-3 border rounded-xl shadow-xl max-w-xl mt-4 mx-auto sm:w-[80%] md:w-[70%] lg:w-[60%] xl:w-[50%]">
-          <h2 className="text-3xl  text-green-700 font-light text-center">Add new Product to the store</h2>
+          <h2 className="text-3xl  text-green-700 font-light text-center">Update the product </h2>
           <form className="flex flex-col gap-3 mt-5" encType="multipart/form-data">
               <label htmlFor="name" className="ml-2">
                Product  Name

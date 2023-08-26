@@ -20,8 +20,8 @@ const Register = () => {
 
   const register = async (e) => {
     e.preventDefault();
-    const { name, email, password, password_confirmation } = input;
-    if (!name || !password || !email || !password_confirmation) {
+    const { name, email, number , password, password_confirmation } = input;
+    if (!name || !password || !email ||!number||  !password_confirmation) {
       toast.warn("field missing", {
         position: "top-right",
         autoClose: 3000,
@@ -60,8 +60,8 @@ const Register = () => {
       });
       return false;
     }
-    if (password.length < 6) {
-      toast.error("password must be 6 character long", {
+    if (password.length < 8) {
+      toast.error("password must be 8 character long", {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -96,11 +96,12 @@ const Register = () => {
     const response = await fetch(`http://127.0.0.1:8000/api/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password, password_confirmation }),
+      body: JSON.stringify({ name, email,number, password, password_confirmation }),
     });
-
+    
     const data = await response.json();
     console.log("data", data);
+    const { message, token } = data;
     if (response.status >= 400 || !data) {
       toast.error("some error occur", {
         position: "top-right",
@@ -124,6 +125,7 @@ const Register = () => {
         progress: undefined,
         theme: "colored",
       });
+      localStorage.setItem("token", token);
       nav("/");
     }
   };
@@ -162,7 +164,22 @@ const Register = () => {
                   name="email"
                   placeholder="Enter your email"
                   onChange={handelChange}
-                />
+                /> 
+                
+                
+                <label htmlFor="number" className="ml-2">
+                Phone-number
+              </label>
+              <input
+              type="tel" 
+              className="p-2 border rounded-lg appearance-none"
+              name="number"
+              placeholder="Enter your Number"
+              onChange={handelChange}
+              pattern="[0-9]{10}" 
+              title="Please enter a valid 10-digit phone number"
+              
+              />
 
                 <label htmlFor="password" className="ml-2">
                   Password
@@ -171,12 +188,12 @@ const Register = () => {
                   type="password"
                   className="p-2 border rounded-lg"
                   name="password"
-                  placeholder="at least 6 character"
+                  placeholder="at least 8 character"
                   onChange={handelChange}
                 />
                 <p className="text-xs mb-2">
                   {" "}
-                  <i>!</i> Passwords must be at least 6 characters. and there
+                  <i>!</i> Passwords must be at least   8 characters. and there
                   should one uppercase one numeric and a special character
                 </p>
 

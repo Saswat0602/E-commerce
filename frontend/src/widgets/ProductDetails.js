@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import { BsCartPlus, BsLightningFill } from "react-icons/bs";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Rating from "../utils/Rating";
 
 const ProductDetails = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     console.log("Fetching product details...");
@@ -19,12 +21,24 @@ const ProductDetails = () => {
       .catch((error) => console.error("Error fetching product:", error));
   }, [productId]);
 
-  const handleCart = () => {
-    toast.success('product added to cart ')
+  const handleCart = async () => {
+    const response = await fetch(
+      `http://localhost:8000/api/cart/add/${productId}`,
+      {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        body: JSON.stringify(),
+      }
+    );
+
+    const data = await response.json();
+    console.log("data", data);
+
+    toast.success(`Added "${product?.name}" to cart`);
   };
 
   const handleBuy = () => {
-    navigate('/userdetail')
+    navigate("/userdetail");
   };
 
   return (
@@ -63,16 +77,14 @@ const ProductDetails = () => {
             <span className="text-blue-400">
               Be the first to Review this product
             </span>
-            <h1 className=" font-bold text-3xl">
-              <span className="font-">₹ </span>
+            <h1 className="font-bold text-3xl">
+              <span>₹ </span>
               {product?.price}
             </h1>
-
-            
             <span className=" text-green-500"> 53% off</span>
             <div>
               Available offers
-              <p>      Bank Offer5% Cashback on Flipkart Axis Bank CardT&C</p>
+              <p> Bank Offer5% Cashback on Flipkart Axis Bank CardT&C</p>
               <p>
                 Extra ₹500 Off on Bikes & Scooters on purchase of ₹30,000 or
                 moreT&C
@@ -101,9 +113,10 @@ const ProductDetails = () => {
                 {product?.description || "No description available"}
               </p>
             </div>
+            <Rating />
           </div>
         </div>
-       
+
       </div>
     </div>
   );
