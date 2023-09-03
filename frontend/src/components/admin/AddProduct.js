@@ -169,7 +169,7 @@ const AddProduct = () => {
               </div>
               <div className="flex justify-center items-center">
                 <button
-                  onClick={() => navigate("/")}
+                  onClick={() => navigate("/admindashboard")}
                   className="py-2 px-4 bg-blue-300 border rounded-lg text-sm hover:bg-slate-400"
                 >
                   Home

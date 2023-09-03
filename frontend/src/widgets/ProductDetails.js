@@ -3,11 +3,18 @@ import { BsCartPlus, BsLightningFill } from "react-icons/bs";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Rating from "../utils/Rating";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import {  useCart } from "../context/CartContext"
+
 
 const ProductDetails = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
+  const [isHeartFilled, setIsHeartFilled] = useState(false);
+  const { cart,setCart } = useCart();
+
   const navigate = useNavigate();
+
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -33,14 +40,65 @@ const ProductDetails = () => {
 
     const data = await response.json();
     console.log("data", data);
+    setCart(cart + 1);
+    localStorage.setItem('cartCart',cart+1)
+    console.log(cart)
+    toast.success(`Added "${product?.name}" to cart`,{
+      autoClose: 1000
+    });
+  };
 
-    toast.success(`Added "${product?.name}" to cart`);
+  const toggleHeart = () => {
+    setIsHeartFilled((prevState) => !prevState);
   };
 
   const handleBuy = () => {
     navigate("/userdetail");
   };
 
+
+  const addWishlist = async () => {
+    const response = await fetch(
+      `http://localhost:8000/api/wishlist/add/${productId}`,
+      {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        body: JSON.stringify(),
+      }
+    );
+
+    const data = await response.json();
+    console.log("data", data);
+
+    toast.success(`${product?.name} wishlisted`);
+  };
+
+  const removeWishlist = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8000/api/wishlist/remove/${productId}`,  
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      const data = await response.json();
+      console.log("data", data);
+
+      if (response.ok) {
+        setIsHeartFilled(false);  
+        toast.success(`${product?.name} removed from wishlist`);
+      } else {
+        toast.error("Failed to remove from wishlist");
+      }
+    } catch (error) {
+      console.error("Error removing from wishlist:", error);
+    }
+  };
+
+  
+  
   return (
     <div>
       <div className="p-2 min-h-screen">
@@ -49,7 +107,7 @@ const ProductDetails = () => {
             <img
               src={`http://localhost:8000/storage/${product?.image}`}
               alt={product?.name}
-              className="w-full border rounded-lg"
+              className="w-full h-[27rem] border rounded-lg"
             />
 
             <div className="flex justify-center mt-4">
@@ -69,11 +127,24 @@ const ProductDetails = () => {
               </button>
             </div>
           </div>
-          <div className="w-full md:w-1/2">
-            <h1 className="mb-5 font-thin text-5xl text-black items-center">
-              {product?.name?.toUpperCase()}
-            </h1>
 
+          <div className="w-full md:w-1/2">
+            <div className="flex justify-between">
+              <h1 className="mb-5 font-thin text-5xl text-black items-center">
+                {product?.name?.toUpperCase()}
+              </h1>
+              <div onClick={toggleHeart} className="cursor-pointer">
+                {isHeartFilled ? (
+                  <AiFillHeart onClick={removeWishlist} className="text-4xl " />
+                ) : (
+                  <AiOutlineHeart
+                    
+                    onClick={addWishlist}
+                    className="text-4xl "
+                  />
+                )}
+              </div>
+            </div>
             <span className="text-blue-400">
               Be the first to Review this product
             </span>
@@ -113,10 +184,9 @@ const ProductDetails = () => {
                 {product?.description || "No description available"}
               </p>
             </div>
-            <Rating />
+            <Rating productId={productId} />
           </div>
         </div>
-
       </div>
     </div>
   );

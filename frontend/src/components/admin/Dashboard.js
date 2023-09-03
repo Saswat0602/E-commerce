@@ -25,10 +25,10 @@ const Dashboard = () => {
 
     const handleDeleteproduct = async (productId) => {
       try {
-        const accessToken = localStorage.getItem("token");
+        const token = localStorage.getItem("token");
 
-        if (!accessToken) {
-          console.error("Access token not found");
+        if (!token) {
+          console.error(" token not found");
           return;
         }
 
