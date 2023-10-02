@@ -1,5 +1,8 @@
-// Create a payment and return an order ID
-app.post("/makePayment", (req, res) => {
+
+
+
+
+const makePayment = async (req, res) => {
   try {
     // Implement Razorpay payment logic here
     const order_id = "your_generated_order_id";
@@ -8,10 +11,9 @@ app.post("/makePayment", (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Error making payment" });
   }
-});
+};
 
-// Handle payment and save form data
-app.post("/handlePayment", async (req, res) => {
+const handlePayment = async (req, res) => {
   try {
     const user_id = req.user.id; // Assuming you have authentication middleware
     const cartItems = []; // Fetch cart items from MongoDB
@@ -66,10 +68,9 @@ app.post("/handlePayment", async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Error saving form data" });
   }
-});
+};
 
-// Get all form data
-app.get("/getAllFormData", async (req, res) => {
+const getAllOrderedData = async (req, res) => {
   try {
     const formData = await FormData.find();
     res.json({ data: formData });
@@ -77,10 +78,11 @@ app.get("/getAllFormData", async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Error retrieving form data" });
   }
-});
+};
 
-// Place an order
-app.post("/placeOrder", (req, res) => {
+
+
+const placeOrder = (req, res) => {
   try {
     const user_id = req.user.id; // Assuming you have authentication middleware
 
@@ -107,4 +109,7 @@ app.post("/placeOrder", (req, res) => {
       .status(500)
       .json({ error: "An error occurred while placing the order" });
   }
-});
+};
+
+
+export {makePayment,handlePayment,placeOrder,getAllOrderedData}

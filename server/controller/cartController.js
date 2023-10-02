@@ -4,8 +4,9 @@ import Product from "../models/Product";
 
 const router = express.Router();
 
-// ADD PRODUCT TO THE CART
-router.post("/addToCart/:productId", async (req, res) => {
+
+
+const addToCart = async (req, res) => {
   try {
     const { productId } = req.params;
     const user = req.user; // Assuming user information is available in the request
@@ -39,10 +40,9 @@ router.post("/addToCart/:productId", async (req, res) => {
   } catch (error) {
     return res.status(500).json({ message: "Internal server error", error });
   }
-});
+};
 
-// VIEW CART ITEMS
-router.get("/viewCart", async (req, res) => {
+const viewCart = async (req, res) => {
   try {
     const user = req.user; // Assuming user information is available in the request
 
@@ -54,10 +54,12 @@ router.get("/viewCart", async (req, res) => {
   } catch (error) {
     return res.status(500).json({ message: "Internal server error", error });
   }
-});
+};
 
-// REMOVE FROM CART
-router.delete("/removeFromCart/:cartItemId", async (req, res) => {
+
+
+
+const removeFromCart= async (req, res) => {
   try {
     const { cartItemId } = req.params;
     const user = req.user; // Assuming user information is available in the request
@@ -76,10 +78,11 @@ router.delete("/removeFromCart/:cartItemId", async (req, res) => {
   } catch (error) {
     return res.status(500).json({ message: "Internal server error", error });
   }
-});
+}
 
-// CLEAR CART
-router.delete("/clearCart", async (req, res) => {
+
+
+const clearCart = async (req, res) => {
   try {
     const user = req.user; // Assuming user information is available in the request
 
@@ -91,6 +94,8 @@ router.delete("/clearCart", async (req, res) => {
   } catch (error) {
     return res.status(500).json({ message: "Internal server error", error });
   }
-});
+};
 
-export default router;
+
+
+export {clearCart ,addToCart,removeFromCart,viewCart}

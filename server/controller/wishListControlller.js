@@ -4,8 +4,7 @@ import User from "../models/user";
 
 // ADD TO WISHLIST
 
-
-app.post("/addToWishlistItem/:productId", async (req, res) => {
+const addToWishlist =  async (req, res) => {
   try {
     const user = req.user; // Assuming user information is provided in the request
     const { productId } = req.params;
@@ -34,10 +33,11 @@ app.post("/addToWishlistItem/:productId", async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
   }
-});
+}
 
-// VIEW WISHLISTED ITEMS
-app.get("/showWishlist", async (req, res) => {
+
+
+const removeFromWishlist = async (req, res) => {
   try {
     const user = req.user; // Assuming user information is provided in the request
 
@@ -50,10 +50,9 @@ app.get("/showWishlist", async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
   }
-});
+}
 
-// GET SINGLE WISHLIST ITEM
-app.get("/getWishlistItem/:id", async (req, res) => {
+const getWishlistItem =  async (req, res) => {
   try {
     const user = req.user; // Assuming user information is provided in the request
     const { id } = req.params;
@@ -72,12 +71,11 @@ app.get("/getWishlistItem/:id", async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
   }
-});
+}
 
-// REMOVE FROM WISHLIST
-app.delete("/removeFromWishlist/:productId", async (req, res) => {
+const getAllWishListItems = async (req, res) => {
   try {
-    const user = req.user; // Assuming user information is provided in the request
+    const user = req.user; 
     const { productId } = req.params;
 
     const product = await Product.findById(productId);
@@ -99,4 +97,7 @@ app.delete("/removeFromWishlist/:productId", async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
   }
-});
+};
+
+
+export {addToWishlist,removeFromWishlist,getAllWishListItems,getWishlistItem}

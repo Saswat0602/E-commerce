@@ -8,8 +8,10 @@ const upload = multer({ dest: "uploads/" }); // You may need to configure multer
 // Import the Product model if it's defined
 import Product from "../models/Product";
 
-// ADD PRODUCT
-router.post("/products", upload.single("image"), async (req, res) => {
+
+
+
+const addProduct =  async (req, res) => {
   try {
     const { name, category, description, price, stock_quantity } = req.body;
     const image = req.file ? req.file.path : null;
@@ -32,10 +34,10 @@ router.post("/products", upload.single("image"), async (req, res) => {
   } catch (error) {
     return res.status(500).json({ message: "Internal server error", error });
   }
-});
+};
 
 // ALL PRODUCT
-router.get("/products", async (req, res) => {
+const allProducts = async (req, res) => {
   try {
     const products = await Product.find();
 
@@ -43,10 +45,10 @@ router.get("/products", async (req, res) => {
   } catch (error) {
     return res.status(500).json({ message: "Internal server error", error });
   }
-});
+};
 
-// SINGLE PRODUCT
-router.get("/products/:id", async (req, res) => {
+
+const singleProduct = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
 
@@ -58,10 +60,10 @@ router.get("/products/:id", async (req, res) => {
   } catch (error) {
     return res.status(500).json({ message: "Internal server error", error });
   }
-});
+};
 
-// UPDATE PRODUCT
-router.put("/products/:id", upload.single("image"), async (req, res) => {
+
+const updateProduct = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
 
@@ -90,10 +92,10 @@ router.put("/products/:id", upload.single("image"), async (req, res) => {
   } catch (error) {
     return res.status(500).json({ message: "Internal server error", error });
   }
-});
+};
 
-// DELETE PRODUCT
-router.delete("/products/:id", async (req, res) => {
+
+const deleteProduct = async (req, res) => {
   try {
     const product = await Product.findByIdAndDelete(req.params.id);
 
@@ -105,10 +107,9 @@ router.delete("/products/:id", async (req, res) => {
   } catch (error) {
     return res.status(500).json({ message: "Internal server error", error });
   }
-});
+};
 
-// FILTER PRODUCT BY CATEGORY
-router.get("/products/filter", async (req, res) => {
+const filterProduct = async (req, res) => {
   try {
     const { category } = req.query;
 
@@ -124,6 +125,13 @@ router.get("/products/filter", async (req, res) => {
   } catch (error) {
     return res.status(500).json({ message: "Internal server error", error });
   }
-});
+};
 
-export default router;
+export {
+  addProduct,
+  allProducts,
+  singleProduct,
+  updateProduct,
+  deleteProduct,
+  filterProduct,
+};

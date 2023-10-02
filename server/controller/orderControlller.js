@@ -1,12 +1,9 @@
 import express from "express";
 import Order from "../models/Order"; // Assuming you have an Order model defined
 import Cart from "../models/Cart"; // Assuming you have a Cart model defined
-import authMiddleware from "../middleware/auth"; // Assuming you have an authentication middleware
 
-const router = express.Router();
 
-// Store order from user's cart
-router.post("/store", authMiddleware, async (req, res) => {
+const createOrder = async (req, res) => {
   try {
     const user = req.user;
 
@@ -31,10 +28,10 @@ router.post("/store", authMiddleware, async (req, res) => {
       .status(500)
       .json({ message: "Error processing the order", error: error.message });
   }
-});
+};
 
-// Get orders for a single user
-router.get("/singleUserOrder", authMiddleware, async (req, res) => {
+
+const getSingleOrder = async (req, res) => {
   try {
     const user = req.user;
 
@@ -48,26 +45,23 @@ router.get("/singleUserOrder", authMiddleware, async (req, res) => {
       .status(500)
       .json({ message: "Error fetching ordered items", error: error.message });
   }
-});
+};
 
-// Get all orders
-router.get("/index", async (req, res) => {
+const getAllorder = async (req, res) => {
   try {
     const products = await Order.find();
 
     return res.status(200).json({ products: products });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        message: "Error fetching ordered products",
-        error: error.message,
-      });
+    return res.status(500).json({
+      message: "Error fetching ordered products",
+      error: error.message,
+    });
   }
-});
+};
 
-// Update order status
-router.put("/updateOrderStatus/:orderId", async (req, res) => {
+
+const changeOrderStatus = async (req, res) => {
   try {
     const orderId = req.params.orderId;
 
@@ -88,6 +82,6 @@ router.put("/updateOrderStatus/:orderId", async (req, res) => {
       .status(500)
       .json({ message: "Error updating order status", error: error.message });
   }
-});
+}
 
-export default router;
+export {createOrder,getAllorder,getSingleOrder,changeOrderStatus}

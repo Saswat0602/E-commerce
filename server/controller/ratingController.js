@@ -5,8 +5,8 @@ import authMiddleware from "../middleware/auth"; // Assuming you have authentica
 
 const router = express.Router();
 
-// Create a rating
-router.post("/", authMiddleware, async (req, res) => {
+
+const createRating = async (req, res) => {
   try {
     const { product_id, rating, review } = req.body;
     const user = req.user; // User object from authentication middleware
@@ -43,10 +43,10 @@ router.post("/", authMiddleware, async (req, res) => {
       status: 500,
     });
   }
-});
+};
 
-// Get all ratings for a product
-router.get("/:product_id", async (req, res) => {
+
+const getAllRatingsForSingleProduct = async (req, res) => {
   try {
     const product_id = req.params.product_id;
     const ratings = await Rating.find({ product_id: product_id });
@@ -62,10 +62,10 @@ router.get("/:product_id", async (req, res) => {
       status: 500,
     });
   }
-});
+}
 
-// Edit a rating
-router.put("/:id", authMiddleware, async (req, res) => {
+
+const editRating = async (req, res) => {
   try {
     const id = req.params.id;
     const rating = await Rating.findById(id);
@@ -102,10 +102,9 @@ router.put("/:id", authMiddleware, async (req, res) => {
       status: 500,
     });
   }
-});
+};
 
-// Delete a rating
-router.delete("/:id", authMiddleware, async (req, res) => {
+const deleteRating = async (req, res) => {
   try {
     const id = req.params.id;
     const rating = await Rating.findById(id);
@@ -138,6 +137,6 @@ router.delete("/:id", authMiddleware, async (req, res) => {
       status: 500,
     });
   }
-});
+};
 
-export default router;
+export {createRating,getAllRatingsForSingleProduct,editRating,deleteRating}

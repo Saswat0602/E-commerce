@@ -3,8 +3,9 @@ import Coupon from "../models/coupon";
 
 const router = express.Router();
 
-// ADD COUPON
-router.post("/createCoupon", async (req, res) => {
+
+
+const createCoupon = async (req, res) => {
   try {
     const { title, code, min_order, value, type, is_active } = req.body;
 
@@ -24,10 +25,9 @@ router.post("/createCoupon", async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Error creating coupon", error });
   }
-});
+};
 
-// GET ALL COUPONS
-router.get("/getAllCoupons", async (req, res) => {
+const getAllCoupons = async (req, res) => {
   try {
     const coupons = await Coupon.find();
 
@@ -35,10 +35,10 @@ router.get("/getAllCoupons", async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Error fetching coupons", error });
   }
-});
+};
 
-// GET SINGLE COUPON
-router.get("/showCoupon/:id", async (req, res) => {
+
+const singleCoupon = async (req, res) => {
   try {
     const coupon = await Coupon.findById(req.params.id);
 
@@ -50,10 +50,9 @@ router.get("/showCoupon/:id", async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Error fetching coupon", error });
   }
-});
+};
 
-// EDIT COUPON
-router.put("/editCoupon/:id", async (req, res) => {
+const editCoupon = async (req, res) => {
   try {
     const { title, code, min_order, value, type, is_active } = req.body;
 
@@ -81,10 +80,9 @@ router.put("/editCoupon/:id", async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Error updating coupon", error });
   }
-});
+};
 
-// DELETE COUPON
-router.delete("/deleteCoupon/:id", async (req, res) => {
+const deleteCoupon = async (req, res) => {
   try {
     const coupon = await Coupon.findByIdAndDelete(req.params.id);
 
@@ -96,6 +94,6 @@ router.delete("/deleteCoupon/:id", async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Error deleting coupon", error });
   }
-});
+};
 
-export default router;
+export {createCoupon,editCoupon,singleCoupon,getAllCoupons,deleteCoupon};

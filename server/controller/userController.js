@@ -1,11 +1,11 @@
 import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import User from "../models/user.js"
+import User from "../models/user.js";
+
 const router = express.Router();
 
-// Register a new user
-router.post("/register", async (req, res) => {
+const registerUser = async (req, res) => {
   try {
     const { name, email, password, ph_no } = req.body;
 
@@ -43,10 +43,9 @@ router.post("/register", async (req, res) => {
       status: 500,
     });
   }
-});
+};
 
-// Log in a user
-router.post("/login", async (req, res) => {
+const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -94,10 +93,9 @@ router.post("/login", async (req, res) => {
       status: 500,
     });
   }
-});
+};
 
-// Get specific user by ID
-router.get("/:id", async (req, res) => {
+const getSingleUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
 
@@ -121,10 +119,9 @@ router.get("/:id", async (req, res) => {
       status: 500,
     });
   }
-});
+};
 
-// Get all users
-router.get("/", async (req, res) => {
+const getAllUsers = async (req, res) => {
   try {
     const users = await User.find();
 
@@ -140,10 +137,9 @@ router.get("/", async (req, res) => {
       status: 500,
     });
   }
-});
+};
 
-// Toggle user's activation status
-router.put("/toggle-activation/:id", async (req, res) => {
+const toggleUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
 
@@ -169,6 +165,6 @@ router.put("/toggle-activation/:id", async (req, res) => {
       status: 500,
     });
   }
-});
+};
 
-export default router;
+export { registerUser, loginUser, getSingleUser, getAllUsers, toggleUser };
