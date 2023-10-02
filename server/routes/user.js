@@ -1,18 +1,23 @@
-import { getAllUsers, getSingleUser, loginUser, registerUser, toggleUser } from "../controller/userController";
+import {
+  getAllUsers,
+  getSingleUser,
+  loginUser,
+  registerUser,
+  toggleUser,
+} from "../controller/userController.js";
 
+import express from "express";
+
+const router = express.Router();
 
 router.post("/register", registerUser);
 
-// Log in a user
 router.post("/login", loginUser);
 
-// Get specific user by ID
 router.get("/:id", getSingleUser);
 
-// Get all users
 router.get("/", getAllUsers);
 
-// Toggle user's activation status
-router.put("/toggle-activation/:id",toggleUser);
+router.put("/toggle-activation/:id", toggleUser);
 
 export default router;
